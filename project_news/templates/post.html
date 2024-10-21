@@ -1,0 +1,44 @@
+{% extends 'flatpages/default.html' %} 
+
+{% load custom_filters %}
+ 
+{% block title %}
+TOPNEWS | {{ post.title|truncatewords:4|censor }}
+{% endblock title %}
+ 
+{% block content %}
+    <div class="container px-5 my-5">
+        <div class="row gx-5">
+            <div class="col-12 mb-5">
+                <div class="card h-100 shadow border-0">
+                    <div class="card-body p-4">
+                        <a class="text-decoration-none link-dark stretched-link" href="/news/{{ post.id }}">
+                            <h1 class="card-title mb-3">{{ post.title|censor }}</h1>
+                            <hr>
+                        </a>
+                        <p class="card-text mb-0">{{ post.text|censor }}</p>
+                    </div>
+                    <div class="card-footer p-4 pt-0 bg-transparent border-top-0">
+                        <div class="d-flex align-items-end justify-content-between">
+                            <div class="d-flex align-items-center">
+                                <div class="small">
+                                    <div class="text-muted">{{ post.creation_date|date:"d.m.Y H:i" }}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <form method="post">
+                {% csrf_token %}
+                {% if request.user in post.category.first.subscribers.all %}
+                    <p>Вы подписаны на обновления новостей из категории "{{ post.category.first.category_name }}"</p>
+                    <button type="submit" class="btn btn-secondary">Отписаться</button> 
+                {% else %}
+                    <p>Подпишитесь на обновления новостей из категории "{{ post.category.first.category_name }}"</p>
+                    <button type="submit" class="btn btn-primary">Подписаться</button>
+                {% endif %}
+            </form>
+        </div>
+    </div>
+{% endblock content %}

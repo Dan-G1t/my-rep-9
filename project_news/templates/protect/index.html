@@ -1,0 +1,25 @@
+{% extends 'flatpages/default.html' %}
+
+{% block title %}
+TOPNEWS | Личный кабинет
+{% endblock title %}
+
+{% block content %}
+<div class="container px-5 my-5">
+    <div class="row gx-5">
+        <div class="col-12 mb-5">
+            <div class="card h-100 shadow border-0">
+                <div class="card-body p-4">
+                    <h1 class="card-title mb-3">Личный кабинет пользователя {{ request.user.username }}</h1>
+                    <hr>
+                    <p class="card-text mb-4">Здесь может содержаться персональная информация для каждого пользователя</p>
+                    <button class="btn btn-secondary"><a href="/accounts/logout/" style="color: white">Выйти</a></button>
+                    {% if is_not_author %}
+                    <button class="btn btn-primary"><a href="/accounts/upgrade/" style="color: white">Стать автором</a></button>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
